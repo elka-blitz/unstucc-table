@@ -12,7 +12,6 @@ table_text = parsed_html.get_text()
 
 table_text = table_text.split('\n')
 
-print(len(table_text))
 # Have the necessary segmented data
 
 # Split up by days?
@@ -29,22 +28,38 @@ for tt_line in table_text:
         day_indexes.append(index)
     index += 1
 
-print(day_indexes)
-
 # Get the lines between the indexes, assign to day.
 # Days are constant anyway, so can be hardcoded
 
-sched_per_day = {}
+line_indexes_per_day = {}
 
-sched_per_day['Mon'] = [day_indexes[0], day_indexes[1]]
-sched_per_day['Tue'] = [day_indexes[1], day_indexes[2]]
-sched_per_day['Wed'] = [day_indexes[2], day_indexes[3]]
-sched_per_day['Thu'] = [day_indexes[3], day_indexes[4]]
-sched_per_day['Fri'] = [day_indexes[4], len(table_text)-1]
+line_indexes_per_day['Mon'] = [day_indexes[0], day_indexes[1]]
+line_indexes_per_day['Tue'] = [day_indexes[1], day_indexes[2]]
+line_indexes_per_day['Wed'] = [day_indexes[2], day_indexes[3]]
+line_indexes_per_day['Thu'] = [day_indexes[3], day_indexes[4]]
+line_indexes_per_day['Fri'] = [day_indexes[4], len(table_text)-1]
 
-print(sched_per_day)
 # There is the option of incorporating Saturday, potential for an endpoint
 
-for day in sched_per_day:
-    print(sched_per_day[day][1] - sched_per_day[day][0])
+#for day in line_indexes_per_day:
+    #    print(line_indexes_per_day[day][1] - line_indexes_per_day[day][0])
 
+
+# Get contents between the line index ranges
+line_contents_per_day = {}
+
+# Use the indexes established for each day
+for day in line_indexes_per_day:
+    line_contents_per_day[day] = []
+    nav = 0
+    start = line_indexes_per_day[day][0]
+    end = line_indexes_per_day[day][1]
+    print('start = ', start)
+    print('end = ', end)
+    # Iterate through lines until end index reached
+    nav = start
+    while nav != end:
+        nav += 1
+        line_contents_per_day[day].append(table_text[nav])
+        print(table_text[nav])
+    print(line_contents_per_day)
