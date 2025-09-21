@@ -3,6 +3,8 @@ try:
 except ImportError:
     from bs4 import BeautifulSoup
 
+from timetable_schema import TimetableSchema
+
 html = open('input.html', 'r') 
 parsed_html = BeautifulSoup(html, features='html.parser')
 
@@ -54,12 +56,20 @@ for day in line_indexes_per_day:
     nav = 0
     start = line_indexes_per_day[day][0]
     end = line_indexes_per_day[day][1]
-    print('start = ', start)
-    print('end = ', end)
     # Iterate through lines until end index reached
     nav = start
     while nav != end:
         nav += 1
         line_contents_per_day[day].append(table_text[nav])
-        print(table_text[nav])
-    print(line_contents_per_day)
+
+schema_load = TimetableSchema()
+
+for day in line_contents_per_day:
+    schema_load.add_day(day, line_contents_per_day[day])
+
+
+
+
+
+
+
