@@ -2,7 +2,7 @@ class TimetableSchema:
     def __init__(self):
         print('Schema Initiated')
         times = ['0800', '0830', '0900', '0930', '1000', '1030', '1100', '1130', '1200', '1230', '1300', '1330', '1400', '1430', '1500', '1530', '1600', '1630', '1700', '1730']
-        days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+        self.days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
         schedule = {}
 
     def add_day(self, day, day_string):
@@ -10,13 +10,15 @@ class TimetableSchema:
         # Objective: Filter string
         # Each populated cell starts and ends with four blanks
         # Each unpopulated cell contains '\xa0'
+#        print(day_string)
+        # Maybe some pre-filtering to deal with multi-lane days v_v
         cells = []
         blank_counter = 0
         index_counter = 0
         data_entry_mode = False
         day_elements = 0
 
-        while day_elements != 20: # Timetable of length 20 (30min increments)
+        while day_elements <= 20: # Timetable of length 20 (30min increments)
         # Trying while loop instead of for, to make a custom for loop?
             if index_counter > len(day_string) - 1:
                 break
@@ -32,6 +34,8 @@ class TimetableSchema:
                 blank_counter += 1
             
             else:
+                if entry in self.days:
+                    break
                 # What about scanning ahead until three non escape/blanks are gathered
                     # Correction, there's actually 5 details per event
                 # Keep running total, move pointer by this amount after
@@ -60,11 +64,27 @@ class TimetableSchema:
                 # Also add the class detail chunk to the overall cell register
                 index_counter = (index_counter + (secondary_index_pointer - index_counter))
                 cells.append(class_detail)
-                
+                day_elements += 2 
+
+                # Can't think of a solution to double lectures other than hardcoding ffs
+                # Oh well
+                double_identifiers = ['115', '3126', 'G06'] # Cringe loaded every iteration
+                for identifier in double_identifiers:
+                    for detail in class_detail:
+                        if identifier in detail:
+                            cells.append(class_detail) # Add lecture a second time to signify doubles
+                            day_elements += 2
+                            print('doubledetect', identifier)
+
+            if day_elements >= 20:
+                break
+             
 
             index_counter += 1
-
-
+        print('\n') 
+        print(day)
+        print(day_string)
         print(cells)
+        print(len(cells))
 
 
