@@ -14,25 +14,56 @@ class TimetableSchema:
         blank_counter = 0
         index_counter = 0
         data_entry_mode = False
+        day_elements = 0
 
-        for entry in day_string:
-            if entry != '':
-                blank_counter = 0
+        while day_elements != 20: # Timetable of length 20 (30min increments)
+        # Trying while loop instead of for, to make a custom for loop?
+            if index_counter > len(day_string) - 1:
+                break
 
+            entry = day_string[index_counter] 
+            # day_string and index_counter need to be refactored
+            # Variable names no longer reflective of what they contain 
             if entry == '\xa0':
                 cells.append('blank')
-                
+                day_elements += 1
+
             elif entry == '':
                 blank_counter += 1
             
-                if blank_counter == 5: 
-                    data_entry_mode = True
-                    blank_counter = 0
+            else:
+                # What about scanning ahead until three non escape/blanks are gathered
+                    # Correction, there's actually 5 details per event
+                # Keep running total, move pointer by this amount after
+                # Work logic for double detection later
 
-            elif entry != '' and data_entry_mode:
-                cells.append(entry + day_string[index_counter + 1])
-                data_entry_mode = False
+                # Else covers all nonescape
+                # Adjust counters accordingly? 
+                # According to what? Maybe ''s >_>
+                class_detail = [] # Stores classcell details, of which there are 5 possible
+                detail_count = 1 
+                secondary_index_pointer = index_counter
+                class_detail.append(entry)
+                
+                while detail_count != 5: # Could also use a len() here
+                    try:
+                        secondary_index_pointer += 1
+                        if day_string[secondary_index_pointer] != '' and day_string[secondary_index_pointer != '\xa0']:
+                            detail_count += 1
+                            class_detail.append(day_string[secondary_index_pointer])
+                    
+                    except IndexError:
+                        break
+
+                # Three details found, title, room, wks
+                # Add number skipped to original pointer
+                # Also add the class detail chunk to the overall cell register
+                index_counter = (index_counter + (secondary_index_pointer - index_counter))
+                cells.append(class_detail)
+                
+
             index_counter += 1
+
 
         print(cells)
 
