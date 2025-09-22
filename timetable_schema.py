@@ -1,7 +1,7 @@
 class TimetableSchema:
     def __init__(self):
         print('Schema Initiated')
-        times = ['0800', '0830', '0900', '0930', '1000', '1030', '1100', '1130', '1200', '1230', '1300', '1330', '1400', '1430', '1500', '1530', '1600', '1630', '1700', '1730']
+        self.times = ['0800', '0830', '0900', '0930', '1000', '1030', '1100', '1130', '1200', '1230', '1300', '1330', '1400', '1430', '1500', '1530', '1600', '1630', '1700', '1730']
         self.days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
         schedule = {}
 
@@ -81,10 +81,16 @@ class TimetableSchema:
              
 
             index_counter += 1
-        print('\n') 
-        print(day)
-        print(day_string)
-        print(cells)
-        print(len(cells))
+        #print('\n') 
+        #print(day)
+        #print(day_string)
+        #print(cells)
+        #print(len(cells))
+        return cells
+
+    def assign_times(self, day, day_segments):
+        time_seg_dict = {}
+
+
 
 
