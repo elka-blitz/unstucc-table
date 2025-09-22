@@ -65,8 +65,8 @@ for day in line_indexes_per_day:
 schema_load = TimetableSchema()
 
 for day in line_contents_per_day:
-    schema_load.add_day(day, line_contents_per_day[day])
-
+    time_segs = schema_load.add_day(day, line_contents_per_day[day])
+    value_assigned_time_segs = schema_load.assign_times(day, time_segs)
 
 
 
