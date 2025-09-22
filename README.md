@@ -11,5 +11,7 @@ Python script to parse downloaded SWCUST html file and return a navigable cli ti
 
 3. `python3 -m venv .`
 
-4. `pip install -r requirements.txt`
+4. `source ./bin/activate`
+
+5. `pip install -r requirements.txt`
 
